@@ -2,10 +2,9 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": 
-  
         {  
         "storageAccount_name": {
-          "defaultValue": "techradarstorage",
+          "defaultValue": "aetechradarteststorage",
           "type": "string"
         },
         "vm_BuildAgent_name": {
@@ -25,7 +24,7 @@
             "type": "string"
         },
         "virtualNetworks_TechRadar_vnet_name": {
-            "defaultValue": "TechRadar-vnet",
+            "defaultValue": "aetechradartest-vnet",
             "type": "string"
         },
     "storageSKU": {
@@ -54,7 +53,7 @@
             "location": "westeurope",
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_D1_v2"
+                    "vmSize": "Basic_A1"
                 },
                 "storageProfile": {
                     "imageReference": {

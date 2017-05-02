@@ -1,0 +1,33 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {  
+        "registries_AETechRadartest_name": {
+            "defaultValue": "aetechradartestcontainerReg",
+            "type": "string"
+        },
+        "registries_AETechRadartest_accessKey": {
+            "defaultValue": null,
+            "type": "securestring"
+        }
+    },
+    "variables": {  },
+    "resources": [  
+        {
+            "type": "Microsoft.ContainerRegistry/registries",
+            "name": "[parameters('registries_AETechRadartest_name')]",
+            "apiVersion": "2016-06-27-preview",
+            "location": "westeurope",
+            "tags": {},
+            "properties": {
+                "adminUserEnabled": false,
+                "storageAccount": {
+                    "name": "techradarstorage",
+                    "accessKey": "[parameters('registries_AETechRadartest_accessKey')]"
+                }
+            },
+            "dependsOn": []
+        }
+    ],
+    "outputs": {  }
+}
