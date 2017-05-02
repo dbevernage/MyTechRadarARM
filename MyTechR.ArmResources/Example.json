@@ -1,0 +1,219 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_TechRadar_VSTS_BuildAgent_name": {
+            "defaultValue": "TechRadar-VSTS-BuildAgent",
+            "type": "String"
+        },
+        "networkInterfaces_techradar_vsts_build654_name": {
+            "defaultValue": "techradar-vsts-build654",
+            "type": "String"
+        },
+        "networkSecurityGroups_TechRadar_VSTS_BuildAgent_nsg_name": {
+            "defaultValue": "TechRadar-VSTS-BuildAgent-nsg",
+            "type": "String"
+        },
+        "publicIPAddresses_TechRadar_VSTS_BuildAgent_ip_name": {
+            "defaultValue": "TechRadar-VSTS-BuildAgent-ip",
+            "type": "String"
+        },
+        "virtualNetworks_TechRadar_vnet_name": {
+            "defaultValue": "TechRadar-vnet",
+            "type": "String"
+        },
+        "storageAccounts_techradardiag678_name": {
+            "defaultValue": "techradardiag678",
+            "type": "String"
+        },
+        "storageAccounts_techradardisks562_name": {
+            "defaultValue": "techradardisks562",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/d6a3dad9-90cf-4f82-9864-c5ab13e87127/resourceGroups/TechRadar/providers/Microsoft.Compute/virtualMachines/TechRadar-VSTS-BuildAgent'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_TechRadar_VSTS_BuildAgent_name')]",
+            "apiVersion": "2016-04-30-preview",
+            "location": "westeurope",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D1_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "16.04-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[parameters('virtualMachines_TechRadar_VSTS_BuildAgent_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_techradardisks562_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_TechRadar_VSTS_BuildAgent_name'),'20170427144924.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_TechRadar_VSTS_BuildAgent_name')]",
+                    "adminUsername": "dbevernage",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false
+                    },
+                    "secrets": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_techradar_vsts_build654_name'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[concat('https', '://', parameters('storageAccounts_techradardiag678_name'), '.blob.core.windows.net', '/')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_techradardisks562_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_techradar_vsts_build654_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_techradardiag678_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d6a3dad9-90cf-4f82-9864-c5ab13e87127/resourceGroups/TechRadar/providers/Microsoft.Network/networkInterfaces/techradar-vsts-build654'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_techradar_vsts_build654_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.0.0.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_TechRadar_VSTS_BuildAgent_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_TechRadar_vnet_name')), '/subnets/default')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_TechRadar_VSTS_BuildAgent_nsg_name'))]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_TechRadar_VSTS_BuildAgent_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_TechRadar_vnet_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_TechRadar_VSTS_BuildAgent_nsg_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d6a3dad9-90cf-4f82-9864-c5ab13e87127/resourceGroups/TechRadar/providers/Microsoft.Network/networkSecurityGroups/TechRadar-VSTS-BuildAgent-nsg'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('networkSecurityGroups_TechRadar_VSTS_BuildAgent_nsg_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "default-allow-ssh",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d6a3dad9-90cf-4f82-9864-c5ab13e87127/resourceGroups/TechRadar/providers/Microsoft.Network/publicIPAddresses/TechRadar-VSTS-BuildAgent-ip'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_TechRadar_VSTS_BuildAgent_ip_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d6a3dad9-90cf-4f82-9864-c5ab13e87127/resourceGroups/TechRadar/providers/Microsoft.Network/virtualNetworks/TechRadar-vnet'.",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_TechRadar_vnet_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/24"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "default",
+                        "properties": {
+                            "addressPrefix": "10.0.0.0/24"
+                        }
+                    }
+                ]
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d6a3dad9-90cf-4f82-9864-c5ab13e87127/resourceGroups/techradar/providers/Microsoft.Storage/storageAccounts/techradardiag678'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_techradardiag678_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westeurope",
+            "tags": {},
+            "properties": {},
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d6a3dad9-90cf-4f82-9864-c5ab13e87127/resourceGroups/techradar/providers/Microsoft.Storage/storageAccounts/techradardisks562'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_techradardisks562_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westeurope",
+            "tags": {},
+            "properties": {},
+            "dependsOn": []
+        }
+    ]
+}
