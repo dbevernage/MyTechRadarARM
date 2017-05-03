@@ -8,15 +8,15 @@
           "type": "string"
         },
         "vm_BuildAgent_name": {
-            "defaultValue": "BuildAgent-vm-name",
+            "defaultValue": "BuildAgent-vm",
             "type": "string"
         },
         "networkInterfaces_BuildAgent_name": {
-            "defaultValue": "BuildAgent-nic-name",
+            "defaultValue": "BuildAgent-nic",
             "type": "string"
         },
         "networkSecurityGroups_BuildAgent_nsg_name": {
-            "defaultValue": "BuildAgent-nsg-name",
+            "defaultValue": "BuildAgent-nsg",
             "type": "string"
         },
         "publicIPAddresses_BuildAgent_ip_name": {
