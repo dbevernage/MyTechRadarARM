@@ -22,7 +22,7 @@
             "properties": {
                 "adminUserEnabled": false,
                 "storageAccount": {
-                    "name": "techradarstorage",
+                    "name": "aetechradarteststorage",
                     "accessKey": "[parameters('registries_AETechRadartest_accessKey')]"
                 }
             },
